@@ -311,15 +311,17 @@ var App = (function () {
 		// 對 func. key 彈出的虛擬鍵盤的按鍵給予 click的 event
         $('#Vortexgear').on('click', '.tabBoxFunctionSet .lightbox .physicalKeyboard .key', function (e) {
 			var fnktmCode = parseInt($(e.target).data('fnktm'));	// data-fnKtm value
+			console.log(`對 func. key 彈出的虛擬鍵盤的按鍵給予 click的 event fnktmCode: ${fnktmCode}`);
             if (fnktmCode == -1) {
                 return;
 			}
 			var idx = _this.vuePageData.active.data.ktm.indexOf(fnktmCode);
+			console.log(`對 func. key 彈出的虛擬鍵盤的按鍵給予 click的 event idx: ${idx}`);
             if (idx >= 0) {
 				// 有找到在data.ktm裡有這個按鍵，表示這個在虛擬鍵盤上的按鍵已經被使用，
 				// 所以現在把它取消使用 free 掉
 				_this.vuePageData.active.data.ktm.splice(idx, 1);
-				console.log(`idx >= 0 : ${_this.vuePageData.active.data.ktm}`);
+				console.log(`對 func. key 彈出的虛擬鍵盤的按鍵給予 click的 event idx >= 0 : ${_this.vuePageData.active.data.ktm}`);
             }
             else if (_this.vuePageData.active.data.ktm.length >= 4) {
 				// 表示已經設定超過四個對應的按鍵了
@@ -329,7 +331,8 @@ var App = (function () {
             else {
                 var filter = _this.vuePageData.data.functionSet.filter(function (functionSet) {
                     return functionSet.ktm.indexOf(fnktmCode) >= 0;
-                });
+				});
+				console.log(`對 func. key 彈出的虛擬鍵盤的按鍵給予 click的 event filter: ${filter}`);
                 if (filter && filter.length > 0) {
 					// 表示這個按鍵在其他的 Func. key中已經被使用了
                     alert("This key has been set on " + filter[0].key + ".");
@@ -651,15 +654,21 @@ var App = (function () {
 	 */
     App.prototype.functionSet = function (idx, key) {
 		console.log(`functionSet idx: ${idx},  key: ${key}`);
-        if (key === void 0) { key = ''; }
+		if (key === void 0) { key = ''; }
+		console.log('---------------------');
 		this.vuePageData.active.tab = this.vuePageData.tab;
+		console.log('-----show phyical keyboard -----');
 		this.vuePageData.active.index = idx;
+		console.log('-----active index -----');
+		// console.log(this.vuePageData.active.data.ktm.indexOf(2));   --> error
 		
 		// 檢查按鍵是否已經設定 func key.
         if (idx >= 0) {
 			// 按鍵已經有設定
+			console.log('idx >= 0 ');
             var newDate = {};
 			newDate = JSON.parse(JSON.stringify(this.vuePageData.data.functionSet[idx]));
+			console.log(newDate);
         }
         else {
 			// 按鍵尚未設定過。
